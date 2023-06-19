@@ -45,7 +45,5 @@ System.out.println("resultNum : "+resultNum);
 response.sendRedirect("noticeboards.jsp");
 %>
 
-<%-- <%=title %> <br />
-<%=content %> --%>
 </body>
 </html>
