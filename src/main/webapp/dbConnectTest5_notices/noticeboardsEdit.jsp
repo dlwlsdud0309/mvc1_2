@@ -1,3 +1,5 @@
+<%@page import="nb.vo.NoticeBoards"%>
+<%@page import="nb.dao.NoticeBoardsDao"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
@@ -17,6 +19,9 @@ if(num==null){
 	return;
 	//참조사이트 : https://findmypiece.tistory.com/55
 }
+
+NoticeBoardsDao dao = new NoticeBoardsDao();
+NoticeBoards nb = dao.getNBD(num);
 
 String driver = "oracle.jdbc.driver.OracleDriver";
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -59,26 +64,26 @@ rs.next();
 		<tbody>
 			<tr>
 				<th class="left">글번호</th>
-				<td><%=num %></td>
+				<td><%=nb.getSeq() %></td>
 				<th class="left">조회수</th>
-				<td><%=rs.getInt("hit") %></td>
+				<td><%=nb.getHit() %></td>
 			</tr>
 			<tr>
 				<th class="left">작성자</th>
-				<td><%=rs.getString("writer") %></td>
+				<td><%=nb.getWriter() %></td>
 				<th class="left">작성일</th>
-				<td><%=rs.getDate("regdate") %></td>
+				<td><%=nb.getRegdate() %></td>
 			</tr>
 			<tr>
 				<th class="left">제목</th>
 				<td colspan="3" id="title">
-					<textarea class="text" name="title" cols="30"><%=rs.getString("title") %></textarea>
+					<textarea class="text" name="title" cols="30"><%=nb.getTitle() %></textarea>
 				</td>
 			</tr>
 			<tr>
 				<th class="left">내용</th>
 				<td colspan="3" id="content">
-					<textarea class="text" name="content" rows="10" cols="30"><%=rs.getString("content") %></textarea>
+					<textarea class="text" name="content" rows="10" cols="30"><%=nb.getContent() %></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -87,9 +92,9 @@ rs.next();
 			</tr>
 		</tbody>
 	</table>
-	<input type="hidden" name="no" value="<%=rs.getInt("seq") %>" />
+	<input type="hidden" name="no" value="<%=nb.getSeq() %>" />
 	<input type="submit" value="수정" />
-	<a href="noticeboardsDetail.jsp?no=<%=num %>">취소</a>
+	<a href="noticeboardsDetail.jsp?no=<%=nb.getSeq() %>">취소</a>
 </form>
 
 </body>

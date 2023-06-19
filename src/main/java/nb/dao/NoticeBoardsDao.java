@@ -8,6 +8,35 @@ import java.sql.ResultSet;
 import nb.vo.NoticeBoards;
 
 public class NoticeBoardsDao {
+	
+	public int edit(NoticeBoards nb) throws Exception {
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String user = "hr";
+		String pw = "123456";
+
+		Class.forName(driver);
+		Connection conn = null;
+		conn = DriverManager.getConnection(url, user, pw);
+
+		String sql = "update noticeboards set title=?, content=? where seq=?";
+
+		PreparedStatement pstmt = null;
+		pstmt = conn.prepareStatement(sql);
+
+		pstmt.setString(1, nb.getTitle());
+		pstmt.setString(2, nb.getContent());
+		pstmt.setInt(3, nb.getSeq());
+
+		//ResultSet rs = null;
+		//rs = pstmt.executeQuery();
+		//rs.next();
+
+		int cnt = pstmt.executeUpdate();
+		
+		return cnt;
+	}
+	
 	public NoticeBoards getNBD(String num) throws Exception {
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";

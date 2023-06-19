@@ -1,3 +1,5 @@
+<%@page import="nb.dao.NoticeBoardsDao"%>
+<%@page import="nb.vo.NoticeBoards"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -20,7 +22,15 @@ if(num==null){
 String title = request.getParameter("title");
 String content = request.getParameter("content");
 
-String driver = "oracle.jdbc.driver.OracleDriver";
+NoticeBoards nb = new NoticeBoards();
+nb.setTitle(title);
+nb.setContent(content);
+nb.setSeq(Integer.parseInt(num));
+
+NoticeBoardsDao dao = new NoticeBoardsDao();
+int cnt = dao.edit(nb);
+
+/* String driver = "oracle.jdbc.driver.OracleDriver";
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
 String user = "hr";
 String pw = "123456";
@@ -42,7 +52,7 @@ pstmt.setInt(3, Integer.parseInt(num));
 //rs = pstmt.executeQuery();
 //rs.next();
 
-int cnt = pstmt.executeUpdate();
+int cnt = pstmt.executeUpdate(); */
 if(cnt>0){
 	//System.out.println("cnt : "+cnt); //결과값 1
 	response.sendRedirect("noticeboardsDetail.jsp?no="+num);
