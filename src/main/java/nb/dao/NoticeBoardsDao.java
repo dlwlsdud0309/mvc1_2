@@ -4,11 +4,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import nb.vo.NoticeBoards;
 
 public class NoticeBoardsDao {
+	public int delete(NoticeBoards nb) throws Exception {
+		int cnt = 0;
+		
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String user = "hr";
+		String pw = "123456";
+
+		Class.forName(driver);
+		Connection conn = null;
+		conn = DriverManager.getConnection(url, user, pw);
+		PreparedStatement pstmt = null;
+
+		String sql = "delete from noticeboards where seq=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, nb.getSeq());
+
+		cnt = pstmt.executeUpdate();
+		return cnt;
+	}
 	
 	public int insert(NoticeBoards nb) throws Exception {
 		int resultNum = 0;

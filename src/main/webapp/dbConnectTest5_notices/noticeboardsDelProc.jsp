@@ -1,3 +1,5 @@
+<%@page import="nb.dao.NoticeBoardsDao"%>
+<%@page import="nb.vo.NoticeBoards"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
@@ -15,7 +17,13 @@ if(num==null){
 	return;
 }
 
-String driver = "oracle.jdbc.driver.OracleDriver";
+NoticeBoards nb = new NoticeBoards();
+nb.setSeq(Integer.parseInt(num));
+
+NoticeBoardsDao dao = new NoticeBoardsDao();
+int cnt = dao.delete(nb);
+
+/* String driver = "oracle.jdbc.driver.OracleDriver";
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
 String user = "hr";
 String pw = "123456";
@@ -29,7 +37,7 @@ String sql = "delete from noticeboards where seq=?";
 pstmt = conn.prepareStatement(sql);
 pstmt.setInt(1, Integer.parseInt(num));
 
-int cnt = pstmt.executeUpdate();
+int cnt = pstmt.executeUpdate(); */
 
 if(cnt>0){
 	response.sendRedirect("noticeboards.jsp");
