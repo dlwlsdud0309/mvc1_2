@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import nb.vo.NoticeBoards;
+
 public class NoticeBoardsDao {
-	public void getNBD(String num) throws Exception {
+	public NoticeBoards getNBD(String num) throws Exception {
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "hr";
@@ -27,5 +29,20 @@ public class NoticeBoardsDao {
 
 		ResultSet rs = pstmt.executeQuery();
 		rs.next();
+		
+		//NoticeBoards.java에 저장(setting)
+		NoticeBoards nb = new NoticeBoards();
+		nb.setSeq(rs.getInt("seq"));
+		nb.setHit(rs.getInt("hit"));
+		nb.setWriter(rs.getString("writer"));
+		nb.setRegdate(rs.getDate("regdate"));
+		nb.setTitle(rs.getString("title"));
+		nb.setContent(rs.getString("content"));
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return nb;
 	}
 }

@@ -1,3 +1,4 @@
+<%@page import="nb.vo.NoticeBoards"%>
 <%@page import="nb.dao.NoticeBoardsDao"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -20,7 +21,7 @@ if(num==null){
 }
 
 NoticeBoardsDao dao = new NoticeBoardsDao();
-dao.getNBD(num);
+NoticeBoards nb = dao.getNBD(num);
 
 
 
@@ -69,23 +70,23 @@ rs.next(); */
 	<tbody>
 		<tr>
 			<th class="left">글번호</th>
-			<td><%=num %></td>
+			<td><%=nb.getSeq() %></td>
 			<th class="left">조회수</th>
-			<td><%=rs.getInt("hit") %></td>
+			<td><%=nb.getHit() %></td>
 		</tr>
 		<tr>
 			<th class="left">작성자</th>
-			<td><%=rs.getString("writer") %></td>
+			<td><%=nb.getWriter() %></td>
 			<th class="left">작성일</th>
-			<td><%=rs.getDate("regdate") %></td>
+			<td><%=nb.getRegdate() %></td>
 		</tr>
 		<tr>
 			<th class="left">제목</th>
-			<td colspan="3" id="title"><%=rs.getString("title") %></td>
+			<td colspan="3" id="title"><%=nb.getTitle() %></td>
 		</tr>
 		<tr>
 			<th class="left">내용</th>
-			<td colspan="3" id="content"><%=rs.getString("content") %></td>
+			<td colspan="3" id="content"><%=nb.getContent() %></td>
 		</tr>
 		<tr>
 			<th class="left">첨부</th>
@@ -94,9 +95,9 @@ rs.next(); */
 	</tbody>
 </table>
 
-<a href="noticeboardsEdit.jsp?no=<%=rs.getInt("seq") %>">수정</a>
+<a href="noticeboardsEdit.jsp?no=<%=nb.getSeq() %>">수정</a>
 <a href="noticeboards.jsp">목록</a>
-<a href="noticeboardsDelProc.jsp?no=<%=rs.getInt("seq") %>">삭제</a>
+<a href="noticeboardsDelProc.jsp?no=<%=nb.getSeq() %>">삭제</a>
 
 </body>
 </html>
