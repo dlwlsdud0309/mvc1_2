@@ -22,7 +22,7 @@ if(num==null){
 
 NoticeBoardsDao dao = new NoticeBoardsDao();
 NoticeBoards nb = dao.getNBD(num);
-
+String loginId = nb.getWriter();
 
 
 /* String driver = "oracle.jdbc.driver.OracleDriver";
@@ -97,7 +97,13 @@ rs.next(); */
 
 <a href="noticeboardsEdit.jsp?no=<%=nb.getSeq() %>">수정</a>
 <a href="noticeboards.jsp">목록</a>
-<a href="noticeboardsDelProc.jsp?no=<%=nb.getSeq() %>">삭제</a>
+<%
+if(session.getAttribute("sessionId").equals(loginId)) {
+%>
+	<a href="noticeboardsDelProc.jsp?no=<%=nb.getSeq() %>">삭제</a>
+<%
+}
+%>
 
 </body>
 </html>
