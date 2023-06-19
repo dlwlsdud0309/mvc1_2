@@ -4,10 +4,40 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import nb.vo.NoticeBoards;
 
 public class NoticeBoardsDao {
+	
+	public int insert(NoticeBoards nb) throws Exception {
+		int resultNum = 0;
+		//db연결하여 insert
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String user = "hr";
+		String pw = "123456";
+
+		Class.forName(driver);
+		conn = DriverManager.getConnection(url, user, pw);
+
+		String sql = "insert into noticeboards(seq, title, writer, content, regdate, hit)";
+				sql+= " values((select max(seq)+1 from noticeboards)";
+				sql+= ", ?, ?, ?, systimestamp, 0)";
+		pstmt = conn.prepareStatement(sql);
+
+		pstmt.setString(1, nb.getTitle());
+		pstmt.setString(2, nb.getWriter());
+		pstmt.setString(3, nb.getContent());
+
+		resultNum = pstmt.executeUpdate();
+		System.out.println("resultNum : "+resultNum);
+		
+		return resultNum;
+	}
 	
 	public int edit(NoticeBoards nb) throws Exception {
 		String driver = "oracle.jdbc.driver.OracleDriver";

@@ -1,3 +1,5 @@
+<%@page import="nb.dao.NoticeBoardsDao"%>
+<%@page import="nb.vo.NoticeBoards"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -18,7 +20,15 @@ String title = request.getParameter("title");
 String loginId = (String)session.getAttribute("sessionId");
 String content = request.getParameter("content");
 
-//db연결하여 insert
+NoticeBoards nb = new NoticeBoards();
+nb.setTitle(title);
+nb.setWriter(loginId);
+nb.setContent(content);
+
+NoticeBoardsDao dao = new NoticeBoardsDao();
+int resultNum = dao.insert(nb);
+
+/* //db연결하여 insert
 Connection conn = null;
 PreparedStatement pstmt = null;
 
@@ -40,9 +50,11 @@ pstmt.setString(2, loginId);
 pstmt.setString(3, content);
 
 int resultNum = pstmt.executeUpdate();
-System.out.println("resultNum : "+resultNum);
+System.out.println("resultNum : "+resultNum); */
 
-response.sendRedirect("noticeboards.jsp");
+if(resultNum>0){
+	response.sendRedirect("noticeboards.jsp");
+}
 %>
 
 </body>
