@@ -1,3 +1,4 @@
+<%@page import="nb.dao.NoticeBoardsDao"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
@@ -18,7 +19,12 @@ if(num==null){
 	//참조사이트 : https://findmypiece.tistory.com/55
 }
 
-String driver = "oracle.jdbc.driver.OracleDriver";
+NoticeBoardsDao dao = new NoticeBoardsDao();
+dao.getNBD(num);
+
+
+
+/* String driver = "oracle.jdbc.driver.OracleDriver";
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
 String user = "hr";
 String pw = "123456";
@@ -37,7 +43,7 @@ PreparedStatement pstmt = conn.prepareStatement(sql);
 pstmt.setInt(1, Integer.parseInt(num));
 
 ResultSet rs = pstmt.executeQuery();
-rs.next();
+rs.next(); */
 
 
 //System.out.println(rs.getString("title"));
